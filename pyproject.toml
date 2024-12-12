@@ -6,7 +6,7 @@ description = "Wrapper that adds an application_settings ConfigSection to loguru
 name = "loguru_configurable"
 packages = [{include = "loguru_configurable", from = "src"}]
 readme = "README.md"
-version = "0.1.0.dev"
+version = "0.1.0"
 
 [tool.poetry.dependencies]
 application-settings = ">=0.5"
