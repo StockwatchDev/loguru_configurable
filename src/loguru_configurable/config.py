@@ -28,10 +28,10 @@ class LoguruLevel:
     """The severity of the level"""
 
     color: str = ""
-    """The color markup of the level; default to ''"""
+    """The color markup of the level; defaults to ''"""
 
     icon: str = ""
-    """The icon of the level; default to ''"""
+    """The icon of the level; defaults to ''"""
 
 
 def _adheres_to_patcher_protocol(imported_patcher: Callable[[loguru.Record], None]) -> bool:
