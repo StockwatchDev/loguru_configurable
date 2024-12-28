@@ -1,12 +1,29 @@
 [tool.poetry]
-authors = [
-  "Stockwatchdevs <stockwatchdevs@gmail.com>",
-]
-description = "Wrapper that adds an application_settings ConfigSection to loguru"
 name = "loguru_configurable"
-packages = [{include = "loguru_configurable", from = "src"}]
-readme = "README.md"
 version = "0.2.0.dev"
+description = "Wrapper that adds an application_settings ConfigSection to loguru"
+authors = ["Stockwatchdevs <stockwatchdevs@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/StockwatchDev/loguru_configurable"
+repository = "https://github.com/StockwatchDev/loguru_configurable"
+# documentation = "https://stockwatchdev.github.io/loguru_configurable/stable/"
+keywords = ["loguru", "logging", "configuration", "application_settings", "dataclass", "pydantic", "toml"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+packages = [{include = "loguru_configurable", from = "src"}]
+
+# [tool.poetry.urls]
+# Changelog = "https://stockwatchdev.github.io/loguru_configurable/stable/CHANGELOG/"
 
 [tool.poetry.dependencies]
 application-settings = ">=0.5"
@@ -135,7 +152,7 @@ legacy_tox_ini = """
 isolated_build = true
 
 envlist =
-    py{312}
+    py{312,313}
     style
     typing
 
