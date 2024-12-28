@@ -8,5 +8,6 @@ from loguru_configurable.config import LoguruConfigSection
 logger.disable("loguru_configurable")
 
 __all__ = [
+    "__version__",
     "LoguruConfigSection",
 ]
