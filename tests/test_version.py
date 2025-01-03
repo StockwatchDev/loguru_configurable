@@ -3,7 +3,7 @@
 from loguru_configurable import __version__
 
 
-def test_version():
+def test_version() -> None:
     """
     Test version
     """

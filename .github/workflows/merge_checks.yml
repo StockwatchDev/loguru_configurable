@@ -1,0 +1,57 @@
+# Run this job on pushes to `develop`, and for pull requests. If you don't specify
+# `branches: [develop], then this actions runs _twice_ on pull requests, which is
+# annoying.
+name: "Merge checks"
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "develop"
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.10', '3.11', '3.12', '3.13']
+        toxenv: ['testing', 'typing']
+        include:
+          - python: '3.12'
+            toxenv: 'style'
+          - python: '3.12'
+            toxenv: 'docs'
+    name: "${{ matrix.toxenv }} for python ${{ matrix.python }}"
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup python ${{ matrix.python }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: 1.5.1
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+
+      - name: Check lockfile
+        run: poetry lock --check
+
+      - name: Install packages
+        run: poetry install --no-interaction --no-root --only testrunner
+
+      - name: Run tests
+        run: poetry run tox -e py${{matrix.python}}-${{ matrix.toxenv }}
+
+      - name: Report coverage
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage.xml
+          flags: unittests
