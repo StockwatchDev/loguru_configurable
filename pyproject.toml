@@ -1,19 +1,45 @@
 [tool.poetry]
-authors = [
-  "Stockwatchdevs <stockwatchdevs@gmail.com>",
-]
-description = "Wrapper that adds an application_settings ConfigSection to loguru"
 name = "loguru_configurable"
-packages = [{include = "loguru_configurable", from = "src"}]
+version = "0.2.0"
+description = "Wrapper that adds an application_settings ConfigSection to loguru"
+authors = ["Stockwatchdevs <stockwatchdevs@gmail.com>"]
+license = "MIT"
 readme = "README.md"
-version = "0.1.0"
+homepage = "https://github.com/StockwatchDev/loguru_configurable"
+repository = "https://github.com/StockwatchDev/loguru_configurable"
+# documentation = "https://stockwatchdev.github.io/loguru_configurable/stable/"
+keywords = ["loguru", "logging", "configuration", "application_settings", "dataclass", "pydantic", "toml"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+packages = [{include = "loguru_configurable", from = "src"}]
+include = [
+    { path = "CHANGELOG.md" },
+    { path = "LICENSE" },
+    { path = "README.md" },
+    { path = "tests", format = "sdist" },
+    { path = "examples", format = "sdist" },
+]
+
+# [tool.poetry.urls]
+# Changelog = "https://stockwatchdev.github.io/loguru_configurable/stable/CHANGELOG/"
 
 [tool.poetry.dependencies]
 application-settings = ">=0.5"
 loguru = ">=0.7"
 loguru-config = ">=0.1"
 loguru-logging-intercept = ">=0.1"
-python = ">=3.12,<4.0"
+python = ">=3.10,<4.0"
 
 [tool.poetry.group.testing]
 optional = true
@@ -135,31 +161,40 @@ legacy_tox_ini = """
 isolated_build = true
 
 envlist =
-    py{312}
+    py{310,311,312,313}-testing
+    py{310,311,312,313}-typing
     style
-    typing
+    docs
 
 [testenv]
 allowlist_externals = poetry
+
+[testenv:py{310,311,312,313}-testing]
+commands_pre =
+    poetry install --no-root --with testing -v
+commands =
+    poetry run python -m pytest --cov-report xml:coverage.xml --cov-report term-missing --cov=loguru_configurable tests/ --import-mode importlib
+
+[testenv:py{310,311,312,313}-typing]
 skip_install = true
 commands_pre =
-    poetry install --with testing -v
+    poetry install --with typing -v
 commands =
-    poetry run pytest --cov-report xml:coverage.xml --cov-report term-missing --cov=loguru_configurable tests/ --import-mode importlib
+    poetry run mypy ./src
+
+[testenv:docs]
+skip_install = true
+commands_pre =
+    poetry install --with docs -v
+commands =
+    poetry run mkdocs build -f ./docs/mkdocs.yml -d ../site
 
 [testenv:style]
 skip_install = true
 commands_pre =
     poetry install --with style -v
 commands =
-    poetry run isort src --diff --check --color
-    poetry run black src --diff --check --color
+    poetry run python -m black --check ./src
+    poetry run isort --check --diff ./src
     poetry run pylint ./src
-
-[testenv:typing]
-skip_install = true
-commands_pre =
-    poetry install --with typing -v
-commands =
-    poetry run mypy src
 """

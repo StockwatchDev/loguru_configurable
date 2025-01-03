@@ -1,0 +1,56 @@
+site_name: loguru_configurable
+site_description: Wrapper that adds an application_settings ConfigSection to loguru
+strict: true
+site_url: https://stockwatchdev.github.io/loguru_configurable/
+
+theme:
+  name: 'material'
+  palette:
+    scheme: slate
+    primary: blue
+  # features:
+  #   - content.tabs.link
+  #   - content.code.annotate
+  #   - content.code.copy
+  #   - announce.dismiss
+  #   - navigation.tabs
+
+repo_name: StockwatchDev/loguru_configurable
+repo_url: https://github.com/StockwatchDev/loguru_configurable
+
+markdown_extensions:
+- toc:
+    # permalink: true
+    title: Page contents
+- pymdownx.superfences
+- pymdownx.highlight
+- pymdownx.tabbed:
+    alternate_style: true
+
+plugins:
+- search
+- gen-files:
+    scripts:
+    - docs/generate_api_pages.py
+- literate-nav:
+    nav_file: SUMMARY.md
+- mkdocstrings:
+    handlers:
+      python:
+        paths: [./src]
+        options:
+          members_order: source
+          separate_signature: true
+          filters: ["!^_"]
+          docstring_options:
+            ignore_init_summary: true
+          merge_init_into_class: true
+- include-markdown
+
+nav:
+- Home: README.md
+- 1. Installation: 1-Installation.md
+- 2. Basic usage: 2-Basic_usage.md
+- 3. Configuration options: 3-Configuration.md
+- Changelog: CHANGELOG.md
+- Code Reference: reference/
