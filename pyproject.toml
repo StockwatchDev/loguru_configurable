@@ -162,30 +162,39 @@ isolated_build = true
 
 envlist =
     py{310,311,312,313}-testing
-    style
     py{310,311,312,313}-typing
+    style
+    docs
 
 [testenv]
 allowlist_externals = poetry
+
+[testenv:py{310,311,312,313}-testing]
+commands_pre =
+    poetry install --no-root --with testing -v
+commands =
+    poetry run python -m pytest --cov-report xml:coverage.xml --cov-report term-missing --cov=loguru_configurable tests/ --import-mode importlib
+
+[testenv:py{310,311,312,313}-typing]
 skip_install = true
 commands_pre =
-    poetry install --with testing -v
+    poetry install --with typing -v
 commands =
-    poetry run pytest --cov-report xml:coverage.xml --cov-report term-missing --cov=loguru_configurable tests/ --import-mode importlib
+    poetry run mypy ./src
+
+[testenv:docs]
+skip_install = true
+commands_pre =
+    poetry install --with docs -v
+commands =
+    poetry run mkdocs build -f ./docs/mkdocs.yml -d ../site
 
 [testenv:style]
 skip_install = true
 commands_pre =
     poetry install --with style -v
 commands =
-    poetry run isort src --diff --check --color
-    poetry run black src --diff --check --color
+    poetry run python -m black --check ./src
+    poetry run isort --check --diff ./src
     poetry run pylint ./src
-
-[testenv:typing]
-skip_install = true
-commands_pre =
-    poetry install --with typing -v
-commands =
-    poetry run mypy src
 """
