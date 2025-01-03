@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "loguru_configurable"
-version = "0.2.0.dev"
+version = "0.2.0"
 description = "Wrapper that adds an application_settings ConfigSection to loguru"
 authors = ["Stockwatchdevs <stockwatchdevs@gmail.com>"]
 license = "MIT"

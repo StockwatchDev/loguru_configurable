@@ -1,4 +1,4 @@
-# loguru_configurable - version develop (to become 0.2.0) #
+# loguru_configurable - version 0.2.0 #
 
 [![pypi](https://img.shields.io/pypi/v/loguru_configurable.svg)](https://pypi.python.org/pypi/loguru_configurable)
 [![versions](https://img.shields.io/pypi/pyversions/loguru_configurable.svg)](https://github.com/StockwatchDev/loguru_configurable)
