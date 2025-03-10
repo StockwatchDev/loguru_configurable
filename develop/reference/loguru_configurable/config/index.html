@@ -966,6 +966,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -990,6 +991,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
 
 
         <p>Defines a loguru log level</p>
+
 
 
 
@@ -1026,6 +1028,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
     <div class="doc doc-contents ">
 
         <p>Name of the logging level</p>
+
     </div>
 
 </div>
@@ -1049,6 +1052,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
     <div class="doc doc-contents ">
 
         <p>The severity of the level</p>
+
     </div>
 
 </div>
@@ -1073,6 +1077,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
     <div class="doc doc-contents ">
 
         <p>The color markup of the level; defaults to ''</p>
+
     </div>
 
 </div>
@@ -1097,6 +1102,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
     <div class="doc doc-contents ">
 
         <p>The icon of the level; defaults to ''</p>
+
     </div>
 
 </div>
@@ -1128,6 +1134,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
 
 
         <p>Protocol class for a function argument for loguru.patch</p>
+
 
 
 
@@ -1181,6 +1188,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
 
 
 
+
   <div class="doc doc-children">
 
 
@@ -1210,6 +1218,7 @@ and loguru-logging-intercept to re-route standard logging calls</p>
 
         <p>Whether modifications to the logger configuration should be made in-place. If False, a copy of the configuration
 is made before modifications are made. Defaults to False.</p>
+
     </div>
 
 </div>
@@ -1237,6 +1246,7 @@ is made before modifications are made. Defaults to False.</p>
 not applied to the logger. This is useful if you want to load the configuration and then modify the LoguruConfig
 object before applying it to the logger. Defaults to False (which differs from loguru_config, but it needs to be
 False, otherwise the default config will always be configured due to initialization of class variables).</p>
+
     </div>
 
 </div>
@@ -1264,6 +1274,7 @@ False, otherwise the default config will always be configured due to initializat
 <code>(logger_name, active)</code>, where <code>logger_name</code> is the name of the logger to activate, and <code>active</code> is a boolean
 indicating whether the logger should be active or not; defaults to a list containing a single tuple to activate
 the root logger.</p>
+
     </div>
 
 </div>
@@ -1293,6 +1304,7 @@ configurations are passed to <code>logger.add</code> as keyword arguments. See t
 folder for examples. For more info on handler parameters refer to
 <a href="https://loguru.readthedocs.io/en/stable/api/logger.html#loguru._logger.Logger.add">the logure docs</a>.
 Defaults to the default handler configuration of loguru.</p>
+
     </div>
 
 </div>
@@ -1317,6 +1329,7 @@ Defaults to the default handler configuration of loguru.</p>
     <div class="doc doc-contents ">
 
         <p>A list of loguru logging levels, to add to the standard levels; defaults to an empty list.</p>
+
     </div>
 
 </div>
@@ -1341,6 +1354,7 @@ Defaults to the default handler configuration of loguru.</p>
     <div class="doc doc-contents ">
 
         <p>The default contents of the <code>extra</code> dictionary (without calling <code>logger.bind</code>); defaults to an empty dict.</p>
+
     </div>
 
 </div>
@@ -1366,6 +1380,7 @@ Defaults to the default handler configuration of loguru.</p>
 
         <p>Specifies the record-patcher parameter in <code>logger.configure</code> that functions like <code>logger.patch</code>;
 post-init converts the string (if not empty) to a Callable[[loguru.Record], None]; defaults to ''.</p>
+
     </div>
 
 </div>
@@ -1390,6 +1405,7 @@ post-init converts the string (if not empty) to a Callable[[loguru.Record], None
     <div class="doc doc-contents ">
 
         <p>Whether to intercept calls to Python's standard <code>logging</code> module and route them to loguru; defaults to False.</p>
+
     </div>
 
 </div>
@@ -1415,6 +1431,7 @@ post-init converts the string (if not empty) to a Callable[[loguru.Record], None
 
         <p>This level of calls to standard logging and above will be intercepted and routed to loguru; defaults to 'DEBUG'.
 This is only used if <code>intercept</code> is True. Valid values: 'DEBUG', 'WARNING', 'INFO', 'ERROR' and 'CRITICAL'.</p>
+
     </div>
 
 </div>
@@ -1440,6 +1457,7 @@ This is only used if <code>intercept</code> is True. Valid values: 'DEBUG', 'WAR
 
         <p>A list of modules to intercept calls from, in addition to the root logger (which is always intercepted if
 intercept is True); defaults to an empty list.</p>
+
     </div>
 
 </div>
@@ -1461,6 +1479,7 @@ intercept is True); defaults to an empty list.</p>
 
         <p>Return a LoguruConfig instance initialized with the fields of self; so that one can do
 `.parse().configure()</p>
+
 
             <details class="quote">
               <summary>Source code in <code>src/loguru_configurable/config.py</code></summary>
@@ -1500,6 +1519,7 @@ intercept is True); defaults to an empty list.</p>
     <div class="doc doc-contents ">
 
         <p>Returns a default handler field for LoguruConfigSection.handlers; equals the default handler of loguru</p>
+
 
             <details class="quote">
               <summary>Source code in <code>src/loguru_configurable/config.py</code></summary>
