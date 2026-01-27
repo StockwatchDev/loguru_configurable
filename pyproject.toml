@@ -1,45 +1,47 @@
-[tool.poetry]
+[project]
 name = "loguru_configurable"
-version = "0.3.0.dev"
+version = "0.3.0dev0"
 description = "Wrapper that adds an application_settings ConfigSection to loguru"
-authors = ["Stockwatchdevs <stockwatchdevs@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/StockwatchDev/loguru_configurable"
-repository = "https://github.com/StockwatchDev/loguru_configurable"
-# documentation = "https://stockwatchdev.github.io/loguru_configurable/stable/"
+authors = [{ name = "Stockwatchdevs", email = "stockwatchdevs@gmail.com" }]
+requires-python = ">=3.10,<4.0"
 keywords = ["loguru", "logging", "configuration", "application_settings", "dataclass", "pydantic", "toml"]
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Natural Language :: English",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Typing :: Typed",
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Natural Language :: English",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
 ]
-packages = [{include = "loguru_configurable", from = "src"}]
+dependencies = [
+  "application_settings (>=0.5.0)",
+  "loguru (>=0.7)",
+  "loguru-config (>=0.1)",
+  "loguru-logging-intercept (>=0.1)",
+]
+
+[project.urls]
+homepage = "https://github.com/StockwatchDev/loguru_configurable"
+repository = "https://github.com/StockwatchDev/loguru_configurable"
+documentation = "https://stockwatchdev.github.io/loguru_configurable/stable/"
+changelog = "https://stockwatchdev.github.io/loguru_configurable/stable/CHANGELOG/"
+
+[tool.poetry]
+packages = [{ include = "loguru_configurable", from = "src" }]
 include = [
-    { path = "CHANGELOG.md" },
-    { path = "LICENSE" },
-    { path = "README.md" },
-    { path = "tests", format = "sdist" },
-    { path = "examples", format = "sdist" },
+  { path = "CHANGELOG.md", format = "sdist" },
+  { path = "README.md", format = "sdist" },
+  { path = "tests", format = "sdist" },
+  { path = "examples", format = "sdist" },
 ]
-
-# [tool.poetry.urls]
-# Changelog = "https://stockwatchdev.github.io/loguru_configurable/stable/CHANGELOG/"
-
-[tool.poetry.dependencies]
-application-settings = ">=0.5"
-loguru = ">=0.7"
-loguru-config = ">=0.1"
-loguru-logging-intercept = ">=0.1"
-python = ">=3.10,<4.0"
 
 [tool.poetry.group.testing]
 optional = true
@@ -47,6 +49,7 @@ optional = true
 [tool.poetry.group.testing.dependencies]
 pytest = ">=7.0"
 pytest-cov = ">=4.0.0"
+packaging = ">=25.0"
 
 [tool.poetry.group.testrunner]
 optional = true
@@ -58,15 +61,15 @@ tox = ">=4.4.7"
 optional = true
 
 [tool.poetry.group.style.dependencies]
-black = ">=23.1.0"
+black = ">=25.0"
 isort = ">=5.12.0"
-pylint = ">=3.0"
+pylint = ">=4.0"
 
 [tool.poetry.group.typing]
 optional = true
 
 [tool.poetry.group.typing.dependencies]
-mypy = "^1.1.1"
+mypy = ">=1.1.1"
 
 [tool.poetry.group.docs]
 optional = true
@@ -80,6 +83,21 @@ mkdocs-material = ">=9.2"
 mkdocstrings-python = ">=1.5"
 pymdown-extensions = ">=10.1"
 # mkdocs-with-pdf = ">=0.9"
+
+[tool.poetry.requires-plugins]
+poetry-bumpversion = ">=0.3"
+poetry-plugin-export = ">=1.8"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["README.md"]
+search = '- version {current_version} #'
+replace = '- version {new_version} #'
+
+[tool.poetry_bumpversion.file."CHANGELOG.md"]
+search = '## [Version {current_version}] - Unreleased ##'
+replace = '## [Version {new_version}] - Unreleased ##'
+
+[tool.poetry_bumpversion.file."src/loguru_configurable/_version.py"]
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
@@ -102,14 +120,9 @@ load-plugins = [
 # broad-except - general exceptions are acceptable
 # ---
 # Enable once current issues are fixed:
-disable = [
-  "fixme",
-  "format",
-  "wrong-import-order",
-  "broad-except",
-]
+disable = ["fixme", "format", "wrong-import-order", "broad-except"]
 enable = [
-  "useless-suppression", # temporarily every now and then to clean them up
+  "useless-suppression",          # temporarily every now and then to clean them up
   "use-symbolic-message-instead",
 ]
 
@@ -121,12 +134,6 @@ runtime-typing = false
 
 [tool.pylint.similarities]
 ignore-imports = "yes"
-
-[[tool.mypy.overrides]]
-ignore_missing_imports = true
-module = [
-  "pyramid",
-]
 
 [tool.isort]
 line_length = 119
@@ -198,3 +205,7 @@ commands =
     poetry run isort --check --diff ./src
     poetry run pylint ./src
 """
+
+[tool.virex]
+poetry_version = "2.3.0"
+python_version = "3.13.11"
