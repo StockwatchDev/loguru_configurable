@@ -1,9 +1,11 @@
-# loguru_configurable - version develop (to become 0.3.0) #
+# loguru_configurable - version 0.3.0dev0 #
 
 [![pypi](https://img.shields.io/pypi/v/loguru_configurable.svg)](https://pypi.python.org/pypi/loguru_configurable)
 [![versions](https://img.shields.io/pypi/pyversions/loguru_configurable.svg)](https://github.com/StockwatchDev/loguru_configurable)
-<!-- [![Build Status](https://github.com/StockwatchDev/application_settings/actions/workflows/merge_checks.yml/badge.svg?branch=develop)](https://github.com/StockwatchDev/application_settings/actions) -->
-<!-- [![codecov](https://codecov.io/gh/StockwatchDev/application_settings/branch/develop/graph/badge.svg)](https://app.codecov.io/gh/StockwatchDev/application_settings) -->
+<!-- [![Build Status](https://github.com/StockwatchDev/application_settings/actions/workflows/merge_checks.yml/badge.svg?
+branch=develop)](https://github.com/StockwatchDev/application_settings/actions) -->
+<!-- [![codecov](https://codecov.io/gh/StockwatchDev/application_settings/branch/develop/graph/badge.svg)](https://app.
+codecov.io/gh/StockwatchDev/application_settings) -->
 [![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
