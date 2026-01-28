@@ -21,12 +21,7 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
-dependencies = [
-  "application_settings (>=0.5.0)",
-  "loguru (>=0.7)",
-  "loguru-config (>=0.1)",
-  "loguru-logging-intercept (>=0.1)",
-]
+dependencies = ["application_settings (>=0.5.0)", "loguru (>=0.7)", "loguru-logging-intercept (>=0.1)"]
 
 [project.urls]
 homepage = "https://github.com/StockwatchDev/loguru_configurable"

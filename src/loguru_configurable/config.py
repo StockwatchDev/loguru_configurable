@@ -3,6 +3,8 @@ and loguru-logging-intercept to re-route standard logging calls"""
 
 from __future__ import annotations
 
+import copy
+import importlib
 import inspect
 from collections.abc import Callable
 from dataclasses import asdict, field
@@ -11,8 +13,6 @@ from typing import Any, Protocol, cast
 import loguru  # cannot do 'from loguru import Record' as this raises pylint error no-name-in-module
 from application_settings import ConfigSectionBase, attributes_doc, dataclass
 from loguru import logger
-from loguru_config import LoguruConfig  # type: ignore[import-untyped]
-from loguru_config.utils.parsers import parse_external  # type: ignore[import-untyped]
 from loguru_logging_intercept import setup_loguru_logging_intercept  # type: ignore[import-untyped]
 
 
@@ -32,6 +32,39 @@ class LoguruLevel:
 
     icon: str = ""
     """The icon of the level; defaults to ''"""
+
+
+def _resolve(s: str) -> Any:
+    """
+    Resolve strings to objects using standard import and attribute syntax.
+
+    This function was copied shamelessly from https://github.com/erezinman/loguru-config, which in turn copied it from
+    cpython's ``logging.config.BaseConfigurator.ext_convert``.
+
+    Examples
+    --------
+    >>> resolve('logging.handlers.RotatingFileHandler')
+    <class 'logging.handlers.RotatingFileHandler'>
+
+    >>> resolve('sys.stdout')   # doctest: +SKIP
+    <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
+    """
+
+    name = s.split(".")
+    used = name.pop(0)
+    try:
+        found = importlib.import_module(used)
+        for frag in name:
+            used += "." + frag
+            try:
+                found = getattr(found, frag)
+            except AttributeError:
+                importlib.import_module(used)
+                found = getattr(found, frag)
+        return found
+    except ImportError as e:
+        v = ValueError(f"Cannot resolve {s!r}: {e}")
+        raise v from e
 
 
 def _adheres_to_patcher_protocol(imported_patcher: Callable[[loguru.Record], None]) -> bool:
@@ -55,6 +88,24 @@ def _adheres_to_patcher_protocol(imported_patcher: Callable[[loguru.Record], Non
 
     logger.debug(f"{imported_patcher.__name__} meets the required protocol: Callable[[loguru.Record], None]")
     return True
+
+
+def configure_logger(
+    loguru_config_section: LoguruConfigSection, logger_to_configure: loguru.Logger | None = None
+) -> list[int]:
+    """
+    Configure the logger with the passed configuration.
+
+    Returns
+    -------
+        The IDs of the handlers that were added to the logger.
+    """
+    _logger = logger if logger_to_configure is None else logger_to_configure
+    _config_dict = loguru_config_section.as_config_dict()
+    if not loguru_config_section.inplace:
+        _config_dict = copy.deepcopy(_config_dict)
+
+    return _logger.configure(**_config_dict)
 
 
 def default_handlers() -> Callable[[], list[dict[str, Any]]]:
@@ -86,9 +137,8 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
 
     do_configure: bool = False
     """Whether to configure the logger after loading the configuration. If False, the configuration is loaded but
-    not applied to the logger. This is useful if you want to load the configuration and then modify the LoguruConfig
-    object before applying it to the logger. Defaults to False (which differs from loguru_config, but it needs to be
-    False, otherwise the default config will always be configured due to initialization of class variables)."""
+    not applied to the logger. This is useful if you want to have more control over when to apply the configuration
+    to the logger, e.g. if you have multiple loggers. Defaults to False."""
 
     activation: list[tuple[str, bool]] = field(default_factory=lambda: [("", True)])
     """The activation configuration to be passed to `logger.add`. The sequence contains tuples of the form
@@ -128,8 +178,8 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
 
     def __post_init__(self) -> None:
         if self.do_configure:
-            logger.debug("loading loguru config in __post_init__")
-            LoguruConfig.load(self._as_config_dict(), inplace=self.inplace)
+            logger.debug("Applying loguru config in __post_init__")
+            configure_logger(self)
         if self.intercept:
             logger.debug("intercepting standard logging calls")
             setup_loguru_logging_intercept(level=self.intercept_level, modules=tuple(self.intercept_modules))
@@ -137,12 +187,13 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
     def _patcher(self) -> PatcherProtocol | None:
         if not self.patcher:
             return None
-        imported_patcher = parse_external(self.patcher)
+        imported_patcher = _resolve(self.patcher)
         if not _adheres_to_patcher_protocol(imported_patcher):
             raise TypeError(f"{self.patcher} is not a Callable[[loguru.Record], None]")
         return cast(PatcherProtocol, imported_patcher)
 
-    def _as_config_dict(self) -> dict[str, Any]:
+    def as_config_dict(self) -> dict[str, Any]:
+        """Returns the configuration as a dict suitable for passing to `logger.configure`"""
         loguru_config_dict = asdict(self)
         loguru_config_dict.pop("inplace")
         loguru_config_dict.pop("do_configure")
@@ -154,8 +205,3 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
             loguru_config_dict["patcher"] = imported_patcher
         logger.trace(f"{loguru_config_dict = }")
         return loguru_config_dict
-
-    def get_loguru_config(self) -> LoguruConfig:
-        """Return a LoguruConfig instance initialized with the fields of self; so that one can do
-        `.parse().configure()"""
-        return LoguruConfig(**self._as_config_dict())
