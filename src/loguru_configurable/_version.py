@@ -1,5 +1,3 @@
-"""Version module, current version"""
+"""Version module, current loguru_configurable version"""
 
-from importlib.metadata import version
-
-__version__ = version("loguru_configurable")
+__version__ = "0.3.0dev0"
