@@ -1,19 +1,22 @@
-"""Module that defines a ConfigSection for loguru, uses loguru-config to configure loguru
-and loguru-logging-intercept to re-route standard logging calls"""
+"""Module that defines a ConfigSection for loguru, defines a function to configure loguru
+and uses loguru-logging-intercept to re-route standard logging calls"""
 
 from __future__ import annotations
 
-import copy
-import importlib
 import inspect
 from collections.abc import Callable
 from dataclasses import asdict, field
-from typing import Any, Protocol, cast
+from typing import TYPE_CHECKING, Any, Protocol, cast
 
-import loguru  # cannot do 'from loguru import Record' as this raises pylint error no-name-in-module
 from application_settings import ConfigSectionBase, attributes_doc, dataclass
 from loguru import logger
 from loguru_logging_intercept import setup_loguru_logging_intercept  # type: ignore[import-untyped]
+
+from .loguru_config_ezinman.loguru_config import LoguruConfig
+from .loguru_config_ezinman.parsers import parse_external
+
+if TYPE_CHECKING:
+    from loguru import Logger, Record
 
 
 @attributes_doc
@@ -34,40 +37,7 @@ class LoguruLevel:
     """The icon of the level; defaults to ''"""
 
 
-def _resolve(s: str) -> Any:
-    """
-    Resolve strings to objects using standard import and attribute syntax.
-
-    This function was copied shamelessly from https://github.com/erezinman/loguru-config, which in turn copied it from
-    cpython's ``logging.config.BaseConfigurator.ext_convert``.
-
-    Examples
-    --------
-    >>> resolve('logging.handlers.RotatingFileHandler')
-    <class 'logging.handlers.RotatingFileHandler'>
-
-    >>> resolve('sys.stdout')   # doctest: +SKIP
-    <_io.TextIOWrapper name='<stderr>' mode='w' encoding='utf-8'>
-    """
-
-    name = s.split(".")
-    used = name.pop(0)
-    try:
-        found = importlib.import_module(used)
-        for frag in name:
-            used += "." + frag
-            try:
-                found = getattr(found, frag)
-            except AttributeError:
-                importlib.import_module(used)
-                found = getattr(found, frag)
-        return found
-    except ImportError as e:
-        v = ValueError(f"Cannot resolve {s!r}: {e}")
-        raise v from e
-
-
-def _adheres_to_patcher_protocol(imported_patcher: Callable[[loguru.Record], None]) -> bool:
+def _adheres_to_patcher_protocol(imported_patcher: Callable[["Record"], None]) -> bool:
 
     if not callable(imported_patcher):
         logger.debug(f"{imported_patcher.__name__} is not a Callable")
@@ -91,21 +61,24 @@ def _adheres_to_patcher_protocol(imported_patcher: Callable[[loguru.Record], Non
 
 
 def configure_logger(
-    loguru_config_section: LoguruConfigSection, logger_to_configure: loguru.Logger | None = None
+    loguru_config_section: LoguruConfigSection, logger_to_configure: "Logger" | None = None
 ) -> list[int]:
     """
-    Configure the logger with the passed configuration.
+    Configure the logger_to_configure with the passed configuration.
 
     Returns
     -------
         The IDs of the handlers that were added to the logger.
     """
     _logger = logger if logger_to_configure is None else logger_to_configure
-    _config_dict = loguru_config_section.as_config_dict()
-    if not loguru_config_section.inplace:
-        _config_dict = copy.deepcopy(_config_dict)
-
-    return _logger.configure(**_config_dict)
+    if (
+        parsed_config := LoguruConfig.load(
+            loguru_config_section.as_config_dict(), inplace=loguru_config_section.inplace
+        )
+    ) is None:
+        logger.error("Loguru configuration failed; parsed configuration is None")
+        return []
+    return parsed_config.configure(logger_to_configure=_logger)  # pylint: disable=no-member
 
 
 def default_handlers() -> Callable[[], list[dict[str, Any]]]:
@@ -123,7 +96,7 @@ def default_handlers() -> Callable[[], list[dict[str, Any]]]:
 class PatcherProtocol(Protocol):  # pylint: disable=too-few-public-methods
     """Protocol class for a function argument for loguru.patch"""
 
-    def __call__(self, record: loguru.Record) -> None: ...
+    def __call__(self, record: "Record") -> None: ...
 
 
 @attributes_doc
@@ -187,7 +160,7 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
     def _patcher(self) -> PatcherProtocol | None:
         if not self.patcher:
             return None
-        imported_patcher = _resolve(self.patcher)
+        imported_patcher = parse_external(self.patcher)
         if not _adheres_to_patcher_protocol(imported_patcher):
             raise TypeError(f"{self.patcher} is not a Callable[[loguru.Record], None]")
         return cast(PatcherProtocol, imported_patcher)
