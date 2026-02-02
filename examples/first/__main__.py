@@ -1,26 +1,11 @@
-"""Do some logging to show the behavior of the configured logger"""
+"""Entry point for the loguru_configurable example with two loggers.
 
-import config  # pylint: disable=unused-import  # isort: skip
+To run this example, from the root of the project execute
+'poetry run python ./examples/first -c ./examples/first/config.toml'
+"""
 
 import sys
 
-import my_module_1
-import my_module_2
-from loguru import logger
+from main import main
 
-
-def main() -> None:
-    """Dummy method to demonstrate logging"""
-
-    logger.error("Hay there.")
-
-    my_module_1.do_logging()
-    my_module_2.do_logging("INFO")
-    my_module_2.do_logging("NEW")
-    my_module_2.do_logging("OLD")
-    my_module_2.do_logging_with_bind("OLD", "not default")
-    logger.debug("Bye...")
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+sys.exit(main())
