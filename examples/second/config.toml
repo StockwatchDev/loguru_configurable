@@ -1,0 +1,20 @@
+
+[loguru_config_std]
+do_configure = false
+activation = [["", "true"]]
+
+[[loguru_config_std.handlers]]
+sink = 'ext://sys.stderr'
+level = 'INFO'
+format = '<green>{time:HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>'
+
+[loguru_config_special]
+do_configure = false
+activation = [["", "true"]]
+
+[[loguru_config_special.handlers]]
+sink = './logs/file-{time}.log'
+level = 'DEBUG'
+format = '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}'
+enqueue = true
+serialize = false
