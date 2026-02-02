@@ -21,7 +21,12 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
   "Typing :: Typed",
 ]
-dependencies = ["application_settings (>=0.5.0)", "loguru (>=0.7)", "loguru-logging-intercept (>=0.1)"]
+dependencies = [
+  "application_settings (>=0.5.0)",
+  "loguru (>=0.7)",
+  "loguru-logging-intercept (>=0.1)",
+  "typing_extensions (>=4.5.0) ; python_version < '3.11'",
+]
 
 [project.urls]
 homepage = "https://github.com/StockwatchDev/loguru_configurable"
@@ -183,6 +188,8 @@ commands_pre =
     poetry install --with typing -v
 commands =
     poetry run mypy ./src
+    poetry run mypy ./examples/first
+    poetry run mypy ./examples/second
 
 [testenv:docs]
 skip_install = true
@@ -199,6 +206,8 @@ commands =
     poetry run python -m black --check ./src
     poetry run isort --check --diff ./src
     poetry run pylint ./src
+    poetry run pylint ./examples/first
+    poetry run pylint ./examples/second
 """
 
 [tool.virex]
