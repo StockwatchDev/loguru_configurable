@@ -1,6 +1,6 @@
 """Main module for the loguru_configurable example with two loggers."""
 
-import config  # pylint: disable=unused-import  # isort: skip
+import config  # isort: skip
 
 import copy
 import os
@@ -34,7 +34,9 @@ def main() -> int:
     # logger.complete()  # this one is not needed, it's done implicitly at program end
     logger_special.complete()
 
-    return os.EX_OK
+    if sys.version_info >= (3, 11):
+        return os.EX_OK
+    return 0
 
 
 if __name__ == "__main__":

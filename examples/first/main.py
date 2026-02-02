@@ -28,7 +28,9 @@ def main() -> int:
     )
     logger.success("Bye...")
 
-    return os.EX_OK
+    if sys.version_info >= (3, 11):
+        return os.EX_OK
+    return 0
 
 
 if __name__ == "__main__":
