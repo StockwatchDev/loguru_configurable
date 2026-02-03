@@ -10,10 +10,10 @@ from typing import TYPE_CHECKING, Any, Protocol, cast
 
 from application_settings import ConfigSectionBase, attributes_doc, dataclass
 from loguru import logger
-from loguru_logging_intercept import setup_loguru_logging_intercept  # type: ignore[import-untyped]
 
 from .loguru_config_ezinman.loguru_config import LoguruConfig
 from .loguru_config_ezinman.parsers import parse_external
+from .loguru_logging_intercept import setup_loguru_logging_intercept
 
 if TYPE_CHECKING:
     from loguru import Logger, Record
@@ -151,10 +151,10 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
 
     def __post_init__(self) -> None:
         if self.do_configure:
-            logger.debug("Applying loguru config in __post_init__")
+            logger.debug("Applying loguru config...")
             configure_logger(self)
         if self.intercept:
-            logger.debug("intercepting standard logging calls")
+            logger.debug("Intercepting standard logging calls...")
             setup_loguru_logging_intercept(level=self.intercept_level, modules=tuple(self.intercept_modules))
 
     def _patcher(self) -> PatcherProtocol | None:

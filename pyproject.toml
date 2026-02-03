@@ -24,7 +24,6 @@ classifiers = [
 dependencies = [
   "application_settings (>=0.5.0)",
   "loguru (>=0.7)",
-  "loguru-logging-intercept (>=0.1)",
   "typing_extensions (>=4.5.0) ; python_version < '3.11'",
 ]
 
@@ -190,6 +189,7 @@ commands =
     poetry run mypy ./src
     poetry run mypy ./examples/first
     poetry run mypy ./examples/second
+    poetry run mypy ./examples/third
 
 [testenv:docs]
 skip_install = true
@@ -203,11 +203,13 @@ skip_install = true
 commands_pre =
     poetry install --with style -v
 commands =
-    poetry run python -m black --check ./src
-    poetry run isort --check --diff ./src
+    # poetry run python -m black --check ./src ./examples ./tests
+    poetry run black --check ./src ./examples ./tests
+    poetry run isort --check --diff ./src ./examples ./tests
     poetry run pylint ./src
     poetry run pylint ./examples/first
     poetry run pylint ./examples/second
+    poetry run pylint ./examples/third
 """
 
 [tool.virex]
