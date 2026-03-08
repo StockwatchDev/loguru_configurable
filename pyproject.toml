@@ -187,9 +187,9 @@ commands_pre =
     poetry install --with typing -v
 commands =
     poetry run mypy ./src
-    poetry run mypy ./examples/first
-    poetry run mypy ./examples/second
-    poetry run mypy ./examples/third
+    poetry run mypy ./examples/1_configure_loguru_only
+    poetry run mypy ./examples/2_configure_loguru_and_others
+    poetry run mypy ./examples/3_two_loggers
 
 [testenv:docs]
 skip_install = true
@@ -207,9 +207,9 @@ commands =
     poetry run black --check ./src ./examples ./tests
     poetry run isort --check --diff ./src ./examples ./tests
     poetry run pylint ./src
-    poetry run pylint ./examples/first
-    poetry run pylint ./examples/second
-    poetry run pylint ./examples/third
+    poetry run pylint ./examples/1_configure_loguru_only
+    poetry run pylint ./examples/2_configure_loguru_and_others
+    poetry run pylint ./examples/3_two_loggers
 """
 
 [tool.virex]
