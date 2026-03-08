@@ -1,12 +1,9 @@
 """Do some logging to show the behavior of the configured logger"""
 
-# Before any other imports, import the configuration
-from loguru_configurable import LoguruApplicationConfig  # isort: skip
+# Before any other imports, import and execute the method that will do configuration
+from loguru_configurable import configure_application_for_loguru  # isort: skip
 
-# And load the configuration settings from the CLI arguments
-from application_settings import config_filepath_from_cli  # isort: skip
-
-config_filepath_from_cli(LoguruApplicationConfig, load=True)  # isort: skip
+configure_application_for_loguru()  # isort: skip
 
 # pylint: disable=wrong-import-position
 import os

@@ -11,7 +11,7 @@ level = 'INFO'
 format = '<green>{time:HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>'
 
 [[loguru_config.handlers]]
-sink = './examples/third/logs/file-{time}.log'
+sink = './examples/2_configure_loguru_and_others/logs/file-{time}.log'
 level = 'DEBUG'
 format = '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}'
 enqueue = true

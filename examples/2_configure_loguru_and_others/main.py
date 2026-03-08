@@ -1,11 +1,8 @@
 """Do some logging to show the behavior of the configured logger"""
 
-from application_settings import config_filepath_from_cli  # isort: skip
-from loguru_configurable import LoguruApplicationConfig  # isort: skip
+import config  # isort: skip  # pylint: disable=unused-import
 
-config_filepath_from_cli(LoguruApplicationConfig, load=True)  # isort: skip
 
-# pylint: disable=wrong-import-position
 import logging
 import os
 import sys
@@ -13,12 +10,12 @@ import sys
 from loguru import logger
 from my_module import do_logging
 
-# pylint: enable=wrong-import-position
-
 
 def main() -> int:
     """Dummy method to demonstrate logging"""
 
+    # the loguru logger has been configured to intercept standard logging calls,
+    # so this message will end up in the same place as loguru messages
     logging.error("Hay there.")
 
     do_logging()

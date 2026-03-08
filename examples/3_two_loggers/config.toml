@@ -1,5 +1,6 @@
 
 [loguru_config_std]
+# When you want to use multiple loggers, you should set do_configure to false and call configure() on each logger separately.
 do_configure = false
 activation = [["", "true"]]
 
@@ -13,7 +14,7 @@ do_configure = false
 activation = [["", "true"]]
 
 [[loguru_config_special.handlers]]
-sink = './logs/file-{time}.log'
+sink = './examples/3_two_loggers/logs/file-{time}.log'
 level = 'DEBUG'
 format = '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}'
 enqueue = true

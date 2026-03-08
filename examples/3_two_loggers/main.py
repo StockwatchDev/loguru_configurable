@@ -25,13 +25,15 @@ configure_logger(config.ExampleConfig.get().loguru_config_special, logger_to_con
 def main() -> int:
     """Main entry point for the loguru_configurable example with two loggers."""
 
-    logger.info("Messages sent to the standard logger will end up on the screen.")
-    logger_special.debug("Messages sent to the special logger will end up in a file.")
-    logger.info("Bye...")
-    logger_special.debug("Second message.")
+    logger.info("Messages sent to the standard loguru logger will end up on the screen.")
+    logger_special.debug("Messages sent to the special loguru logger will end up in a file.")
+    logger.success("Bye...")
+    logger_special.success("Second time bye.")
 
-    # We need to explicitly complete the (additional) loggers to ensure all messages are flushed
-    # logger.complete()  # this one is not needed, it's done implicitly at program end
+    # For the special logger, we have configured `enqueue=True` which means that the logger will use a background
+    # thread to write log messages.
+    # Hence, we need to call `complete` to make sure all log messages are written before the application exits,
+    # otherwise we might lose some log messages.
     logger_special.complete()
 
     if sys.version_info >= (3, 11):
