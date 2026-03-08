@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added 0.3.0 ###
 
-- Nothing yet
+- Convenience function for when you want to only configure loguru in your application
+
+### Changed 0.3.0 ###
+
+- Loguru-logging-intercept is now integrated instead of a dependency
+- Loguru-config is now integrated instead of a dependency
 
 ## [0.2.0] - 2025-01-03 ##
 
