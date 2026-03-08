@@ -151,8 +151,8 @@ class LoguruConfigSection(ConfigSectionBase):  # pylint: disable=too-many-instan
 
     def __post_init__(self) -> None:
         if self.do_configure:
-            logger.debug("Applying loguru config...")
             configure_logger(self)
+            logger.debug("Loguru config applied.")
         if self.intercept:
             logger.debug("Intercepting standard logging calls...")
             setup_loguru_logging_intercept(level=self.intercept_level, modules=tuple(self.intercept_modules))
