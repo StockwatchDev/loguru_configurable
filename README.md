@@ -12,10 +12,11 @@ codecov.io/gh/StockwatchDev/application_settings) -->
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Wrapper that adds an [application_settings](https://github.com/StockwatchDev/application_settings) ConfigSection to
-[loguru](https://github.com/Delgan/loguru), a library which aims to bring enjoyable logging in Python.
+If you have a python application that uses [loguru](https://github.com/Delgan/loguru) for logging, then you can add this
+library to easily configure the logging by means of a toml or json file. Interception of the standard logger can also
+be configured.
 
-Also relies on [loguru-config](https://github.com/erezinman/loguru-config) and
-[loguru-logging-intercept](https://github.com/MatthewScholefield/loguru-logging-intercept).
+This package builds on the [`application_settings`](https://github.com/StockwatchDev/application_setting) package and
+defines a loguru-specific config class.
 
 This project is licensed under the terms of the MIT license.

@@ -1,12 +1,44 @@
 # Basic usage #
 
-The `loguru_configurable` package is designed to simplify the configuration and integration of the `loguru` logging
-library with additional features like routing standard logging calls and defining custom logging levels. This guide
-explains how to use `loguru_configurable` in your Python application.
+This guide explains how to use `loguru_configurable` in your Python application by means of a couple of examples.
 
-## Setting Up Configuration
+## Simplest case: you want to configure loguru and nothing else ##
 
-### Configuration Module
+If you only want to configure `loguru` and nothing else, then you can use the config class that is defined in this
+package. What is left to do is to write an appropriate config file, load the config from your application and add the
+config file path as a command line option when you start your application.
+
+### Step 1: define a config file ###
+
+An overview of the items available for configuration is given in section [Configuration](3-Configuration.md). Each
+section in your config file should start with `loguru_config`:
+
+```toml
+[loguru_config]
+# apply the config after loading
+do_configure = true
+
+# activate loggers, e.g. the root logger
+activation = [["", "true"]]
+
+# send INFO and higher level log messages to stderr
+[[loguru_config.handlers]]
+sink = 'ext://sys.stderr'
+level = 'INFO'
+format = '<green>{time:HH:mm:ss.SSS}</green> | <level>{level: <8}</level> | <level>{message}</level>'
+
+# write DEBUG and higher level log messages to file
+[[loguru_config.handlers]]
+sink = './logs/file-{time}.log'
+level = 'DEBUG'
+format = '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}'
+enqueue = true
+serialize = false
+```
+
+## Setting Up Configuration ###
+
+### Configuration Module ###
 
 Define a module to load and manage the configuration of your application. For example, `config.py`:
 
@@ -25,7 +57,7 @@ config_filepath_from_cli(ExampleConfig, load=True)
 
 This module uses `application_settings` to load the configuration from file.
 
-### Configuration File
+### Configuration File ###
 
 Create a `config.toml` file to configure your logging setup. Here is an example:
 
@@ -70,9 +102,9 @@ This file defines:
 - Extra context information.
 - Interception of standard logging calls.
 
-## Logging in the Application
+## Logging in the Application ###
 
-### Main Script
+### Main Script ###
 
 Here's a main script (`__main__.py`) to demonstrate the logging behavior:
 
@@ -100,9 +132,9 @@ if __name__ == "__main__":
     sys.exit(main())
 ```
 
-### Supporting Modules
+### Supporting Modules ###
 
-#### `my_module_1.py`
+#### `my_module_1.py` ####
 
 ```python
 import datetime
@@ -119,7 +151,7 @@ def do_logging() -> None:
     logging.warning("This is a warning, sent to the standard logger")
 ```
 
-#### `my_module_2.py`
+#### `my_module_2.py` ####
 
 ```python
 import loguru
@@ -133,7 +165,7 @@ def do_logging_with_bind(level: str, context: str = "default") -> None:
     loguru.logger.bind(context=context).log(level, "This is a log message with bind")
 ```
 
-### Output Example
+### Output Example ###
 
 Depending on your `config.toml` settings, you will see:
 
