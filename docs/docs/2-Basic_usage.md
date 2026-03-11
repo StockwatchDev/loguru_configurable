@@ -4,14 +4,15 @@ This guide explains how to use `loguru_configurable` in your Python application 
 
 ## Simplest case: you want to configure loguru and nothing else ##
 
-If you only want to configure `loguru` and nothing else, then you can use the config class that is defined in this
-package. What is left to do is to write an appropriate config file, load the config from your application and add the
-config file path as a command line option when you start your application.
+If you only want to configure `loguru` and nothing else, then you have to write an appropriate config file, load the
+config from your application and add the config file path as a command line option when you start your application.
+An example where this is done is found
+[in the folder `examples/1_configure_loguru_only` in the repo](https://github.com/StockwatchDev/loguru_configurable/tree/develop/examples/1_configure_loguru_only).
 
 ### Step 1: define a config file ###
 
 An overview of the items available for configuration is given in section [Configuration](3-Configuration.md). Each
-section in your config file should start with `loguru_config`:
+section header in your config file should start with `loguru_config`:
 
 ```toml
 [loguru_config]
@@ -34,6 +35,34 @@ level = 'DEBUG'
 format = '{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {name}:{function}:{line} - {message}'
 enqueue = true
 serialize = false
+```
+
+### Step 2: load the config in your main module ###
+
+Loading and applying the configuration is realized with the following two lines of code, which will typically be
+contained in your main module, at the top:
+
+```python
+# Import the function that will configure loguru
+from loguru_configurable import configure_application_for_loguru
+
+# and execute it
+configure_application_for_loguru()
+```
+
+### Step 3: call your application with the config file path as command line parameter ###
+
+Obviously, your application needs to know the location of your config file. Assume that your config file is called
+`config.toml`, then a good way to pass this info is by means of a command line parameter:
+
+```sh
+python my_script.py -c path/to/config.toml
+```
+
+or
+
+```sh
+python -m my_script -c path/to/config.toml
 ```
 
 ## Setting Up Configuration ###
