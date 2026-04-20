@@ -1104,14 +1104,14 @@ files = [
 
 [[package]]
 name = "packaging"
-version = "26.0"
+version = "26.1"
 description = "Core utilities for Python packages"
 optional = false
 python-versions = ">=3.8"
 groups = ["docs", "style", "testing", "testrunner"]
 files = [
-    {file = "packaging-26.0-py3-none-any.whl", hash = "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"},
-    {file = "packaging-26.0.tar.gz", hash = "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"},
+    {file = "packaging-26.1-py3-none-any.whl", hash = "sha256:5d9c0669c6285e491e0ced2eee587eaf67b670d94a19e94e3984a481aba6802f"},
+    {file = "packaging-26.1.tar.gz", hash = "sha256:f042152b681c4bfac5cae2742a55e103d27ab2ec0f3d88037136b6bfe7c9c5de"},
 ]
 
 [[package]]
@@ -1924,4 +1924,4 @@ dev = ["black (>=19.3b0) ; python_version >= \"3.6\"", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "64d30cc1e170ad21e9a82ebca4673ae66bb63c337c69bb5a24500275e578e36a"
+content-hash = "87725799932a740046465faff5a13ab8f6b2eff18b53402f9b3b9e03678be616"
