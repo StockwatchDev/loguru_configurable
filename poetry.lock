@@ -1501,14 +1501,14 @@ six = ">=1.5"
 
 [[package]]
 name = "python-discovery"
-version = "1.2.1"
+version = "1.2.2"
 description = "Python interpreter discovery"
 optional = false
 python-versions = ">=3.8"
 groups = ["testrunner"]
 files = [
-    {file = "python_discovery-1.2.1-py3-none-any.whl", hash = "sha256:b6a957b24c1cd79252484d3566d1b49527581d46e789aaf43181005e56201502"},
-    {file = "python_discovery-1.2.1.tar.gz", hash = "sha256:180c4d114bff1c32462537eac5d6a332b768242b76b69c0259c7d14b1b680c9e"},
+    {file = "python_discovery-1.2.2-py3-none-any.whl", hash = "sha256:e1ae95d9af875e78f15e19aed0c6137ab1bb49c200f21f5061786490c9585c7a"},
+    {file = "python_discovery-1.2.2.tar.gz", hash = "sha256:876e9c57139eb757cb5878cbdd9ae5379e5d96266c99ef731119e04fffe533bb"},
 ]
 
 [package.dependencies]
@@ -1770,14 +1770,14 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.51.0"
+version = "4.53.0"
 description = "tox is a generic virtualenv management and test command line tool"
 optional = false
 python-versions = ">=3.10"
 groups = ["testrunner"]
 files = [
-    {file = "tox-4.51.0-py3-none-any.whl", hash = "sha256:df848c4d9864ec6333c6e2b427fdc182b9f1d840d2bed072997bd48104269182"},
-    {file = "tox-4.51.0.tar.gz", hash = "sha256:e3967c0c2d7318d0b14a38d8cbb6ec2d12008574d612c1774fd00d376c7d5e6a"},
+    {file = "tox-4.53.0-py3-none-any.whl", hash = "sha256:cc4e716d18c4889aa179d785175c438fa60c35deef20ce689ec288d8fb656096"},
+    {file = "tox-4.53.0.tar.gz", hash = "sha256:62c780e42f87d34ee60f2ea20342156253794fdcbd6885fd797d98ee05009f22"},
 ]
 
 [package.dependencies]
@@ -1788,7 +1788,7 @@ packaging = ">=26"
 platformdirs = ">=4.9.4"
 pluggy = ">=1.6"
 pyproject-api = ">=1.10"
-python-discovery = ">=1.2.1"
+python-discovery = ">=1.2.2"
 tomli = {version = ">=2.4", markers = "python_version < \"3.11\""}
 tomli-w = ">=1.2"
 typing-extensions = {version = ">=4.15", markers = "python_version < \"3.11\""}
@@ -1924,4 +1924,4 @@ dev = ["black (>=19.3b0) ; python_version >= \"3.6\"", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "64d30cc1e170ad21e9a82ebca4673ae66bb63c337c69bb5a24500275e578e36a"
+content-hash = "cd5324eb879ac79e49b54c2600c82842458a6075ea5476d539c5e03df6d2c7d9"
