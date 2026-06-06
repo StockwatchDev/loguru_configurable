@@ -77,7 +77,7 @@ optional = true
 [tool.poetry.group.docs.dependencies]
 mkdocs = ">=1.5"
 mkdocs-gen-files = ">=0.5"
-mkdocs-include-markdown-plugin = ">=6.0"
+mkdocs-include-markdown-plugin = ">=7.3.0"
 mkdocs-literate-nav = ">=0.6"
 mkdocs-material = ">=9.2"
 mkdocstrings-python = ">=1.5"
