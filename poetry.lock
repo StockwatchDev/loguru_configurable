@@ -1837,14 +1837,14 @@ files = [
 
 [[package]]
 name = "tox"
-version = "4.53.1"
+version = "4.55.1"
 description = "tox is a generic virtualenv management and test command line tool"
 optional = false
 python-versions = ">=3.10"
 groups = ["testrunner"]
 files = [
-    {file = "tox-4.53.1-py3-none-any.whl", hash = "sha256:4a9948607e976a337c22d64a1b4fafd486125e82f00ab6ce32fa6cacc23f48b1"},
-    {file = "tox-4.53.1.tar.gz", hash = "sha256:7be9805ed4a34242510c7acc9a7e3a01a35942e08f31f8bd69067c3a37130afc"},
+    {file = "tox-4.55.1-py3-none-any.whl", hash = "sha256:e2084be6dfdef96ba1bed4948e6a1f73613d6952e1477be5dca45653d4c053c8"},
+    {file = "tox-4.55.1.tar.gz", hash = "sha256:0678fbf26dd5b559b1ef128fa4388325920219322ebc8cc5f3497627c00f4472"},
 ]
 
 [package.dependencies]
@@ -1863,6 +1863,7 @@ virtualenv = ">=21.1"
 
 [package.extras]
 completion = ["argcomplete (>=3.6.3)"]
+testing = ["devpi-process (>=1.1.1)", "pytest (>=9.0.2)", "pytest-mock (>=3.15.1)"]
 
 [[package]]
 name = "typing-extensions"
@@ -1991,4 +1992,4 @@ dev = ["black (>=19.3b0) ; python_version >= \"3.6\"", "pytest (>=4.6.2)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "8c74d56c4c16e924064b5b9086c7f40ddcae4d328f113e518e103e31b187ea0f"
+content-hash = "a84d392202799c7add8636e612d46c76c8b67e32706c2a5e2ad0109046f87362"
