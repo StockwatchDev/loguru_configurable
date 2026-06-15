@@ -47,7 +47,7 @@ include = [
 optional = true
 
 [tool.poetry.group.testing.dependencies]
-pytest = ">=9.0.3"
+pytest = ">=9.1.0"
 pytest-cov = ">=4.0.0"
 packaging = ">=26.2"
 
