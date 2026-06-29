@@ -55,7 +55,7 @@ packaging = ">=26.2"
 optional = true
 
 [tool.poetry.group.testrunner.dependencies]
-tox = ">=4.55.1"
+tox = ">=4.56.1"
 
 [tool.poetry.group.style]
 optional = true
